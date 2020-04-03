@@ -10,8 +10,6 @@ const { terser } = require('rollup-plugin-terser');
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
 
-const syntheticShadow = require('./synthetic-shadow');
-
 const env = process.env.NODE_ENV || 'development';
 
 const input = path.resolve(__dirname, '../src/main.js');
@@ -32,7 +30,7 @@ function rollupConfig({ target }) {
                 mainFields: ['module', 'main'],
                 browser: true,
             }),
-            isCompat && syntheticShadow(),
+            isCompat,
             lwcCompiler(),
             replace({ 'process.env.NODE_ENV': JSON.stringify(env) }),
             isCompat && compat(),
